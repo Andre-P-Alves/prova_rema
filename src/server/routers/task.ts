@@ -9,6 +9,8 @@ const userSelect = {
   image: true,
 } as const;
 
+const taskStatus = z.enum(["IN_PROGRESS", "COMPLETED", "CANCELLED"]);
+
 export const taskRouter = createTRPCRouter({
   getAll: publicProcedure
     .input(
@@ -29,8 +31,8 @@ export const taskRouter = createTRPCRouter({
           ...(input?.setor && { user: { setor: input.setor } }),
           ...(input?.startDate && { startTime: { gte: input.startDate } }),
           ...(input?.endDate && { startTime: { lte: input.endDate } }),
-          ...(input?.status === "in_progress" && { endTime: null }),
-          ...(input?.status === "completed" && { endTime: { not: null } }),
+          ...(input?.status === "in_progress" && { status: "IN_PROGRESS" }),
+          ...(input?.status === "completed" && { status: "COMPLETED" }),
         },
         include: { user: { select: userSelect } },
         orderBy: { startTime: "desc" },
@@ -57,7 +59,10 @@ export const taskRouter = createTRPCRouter({
     )
     .mutation(({ ctx, input }) => {
       return ctx.db.task.create({
-        data: input,
+        data: {
+          ...input,
+          status: input.endTime ? "COMPLETED" : "IN_PROGRESS",
+        },
         include: { user: { select: userSelect } },
       });
     }),
@@ -66,6 +71,8 @@ export const taskRouter = createTRPCRouter({
     .input(
       z.object({
         id: z.string(),
+        status: taskStatus.optional(),
+        userId: z.string().optional(),
         startTime: z.date().optional(),
         endTime: z.date().nullable().optional(),
         description: z.string().min(1).optional(),

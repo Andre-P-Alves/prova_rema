@@ -1,3 +1,5 @@
+export type TaskStatus = 'IN_PROGRESS' | 'COMPLETED' | 'CANCELLED';
+
 export interface User {
   id: string;
   name: string;
@@ -11,6 +13,7 @@ export interface Activity {
   startTime: Date;
   endTime: Date | null;
   description: string;
+  status: TaskStatus;
   user: User;
   createdAt: Date;
 }

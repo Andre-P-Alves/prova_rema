@@ -5,12 +5,14 @@ import { Sidebar } from './Sidebar';
 import { FilterBar } from '@/components/taskboard/FilterBar';
 import { TaskBoard } from '@/components/taskboard/TaskBoard';
 import { CreateEntryModal } from '@/components/modals/CreateEntryModal';
+import { EditEntryModal } from '@/components/modals/EditEntryModal';
 import { trpc } from '@/lib/trpc/client';
-import { FilterState } from '@/types/activity';
+import { Activity, FilterState } from '@/types/activity';
 
 export function MainLayout() {
   const [editMode, setEditMode] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isCreateOpen, setIsCreateOpen] = useState(false);
+  const [editingTask, setEditingTask] = useState<Activity | null>(null);
   const [filters, setFilters] = useState<FilterState>({
     search: '',
     startDate: '',
@@ -59,8 +61,8 @@ export function MainLayout() {
         if (!filters.selectedSetores.includes(task.user.setor)) return false;
       }
 
-      if (filters.status === 'in_progress' && task.endTime !== null) return false;
-      if (filters.status === 'completed' && task.endTime === null) return false;
+      if (filters.status === 'in_progress' && task.status !== 'IN_PROGRESS') return false;
+      if (filters.status === 'completed' && task.status !== 'COMPLETED') return false;
 
       return true;
     });
@@ -76,7 +78,7 @@ export function MainLayout() {
           onFiltersChange={setFilters}
           editMode={editMode}
           onToggleEditMode={() => setEditMode((prev) => !prev)}
-          onCreateNew={() => setIsModalOpen(true)}
+          onCreateNew={() => setIsCreateOpen(true)}
           allUsers={users}
           allSetores={allSetores}
         />
@@ -85,13 +87,19 @@ export function MainLayout() {
           activities={filteredTasks}
           editMode={editMode}
           onDelete={(id) => deleteTask.mutate({ id })}
+          onEdit={(activity) => setEditingTask(activity)}
           selectedSetores={filters.selectedSetores}
         />
       </main>
 
       <CreateEntryModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+        isOpen={isCreateOpen}
+        onClose={() => setIsCreateOpen(false)}
+      />
+
+      <EditEntryModal
+        task={editingTask}
+        onClose={() => setEditingTask(null)}
       />
     </div>
   );
