@@ -6,7 +6,7 @@ import { FilterBar } from '@/components/taskboard/FilterBar';
 import { TaskBoard } from '@/components/taskboard/TaskBoard';
 import { CreateEntryModal } from '@/components/modals/CreateEntryModal';
 import { mockCurrentUser, mockActivities } from '@/data/mockActivities';
-import { Activity, FilterState } from '@/types/activity';
+import { Activity, FilterState, User } from '@/types/activity';
 
 export function MainLayout() {
   const [activities, setActivities] = useState<Activity[]>(mockActivities);
@@ -16,7 +16,24 @@ export function MainLayout() {
     search: '',
     startDate: '',
     endDate: '',
+    selectedUsers: [],
+    selectedSetores: [],
   });
+
+  const allUsers: User[] = useMemo(() => {
+    const seen = new Set<string>();
+    return activities
+      .map((a) => a.user)
+      .filter((u) => {
+        if (seen.has(u.id)) return false;
+        seen.add(u.id);
+        return true;
+      });
+  }, [activities]);
+
+  const allSetores: string[] = useMemo(() => {
+    return [...new Set(allUsers.map((u) => u.setor))].sort();
+  }, [allUsers]);
 
   const filteredActivities = useMemo(() => {
     return activities.filter((activity) => {
@@ -35,6 +52,14 @@ export function MainLayout() {
       if (filters.endDate) {
         const endFilter = new Date(filters.endDate + 'T23:59:59');
         if (activity.startTime > endFilter) return false;
+      }
+
+      if (filters.selectedUsers.length > 0) {
+        if (!filters.selectedUsers.includes(activity.user.id)) return false;
+      }
+
+      if (filters.selectedSetores.length > 0) {
+        if (!filters.selectedSetores.includes(activity.user.setor)) return false;
       }
 
       return true;
@@ -56,6 +81,8 @@ export function MainLayout() {
           editMode={editMode}
           onToggleEditMode={() => setEditMode((prev) => !prev)}
           onCreateNew={() => setIsModalOpen(true)}
+          allUsers={allUsers}
+          allSetores={allSetores}
         />
 
         <TaskBoard

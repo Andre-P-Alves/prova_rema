@@ -23,9 +23,14 @@ export function UserInfo({ user }: UserInfoProps) {
           <p className="text-rema-tan text-xs truncate">{user.email}</p>
         </div>
       </div>
-      <div className="flex items-center gap-2">
-        <div className="w-2 h-2 rounded-full bg-emerald-400 flex-shrink-0" />
-        <span className="text-rema-tan text-xs">Online</span>
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <div className="w-2 h-2 rounded-full bg-emerald-400 flex-shrink-0" />
+          <span className="text-rema-tan text-xs">Online</span>
+        </div>
+        <span className="text-xs bg-rema-orange/20 text-rema-tan px-2 py-0.5 rounded-full">
+          {user.setor}
+        </span>
       </div>
     </div>
   );

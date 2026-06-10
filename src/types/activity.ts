@@ -2,6 +2,7 @@ export interface User {
   id: string;
   name: string;
   email: string;
+  setor: string;
   image?: string;
 }
 
@@ -18,4 +19,6 @@ export interface FilterState {
   search: string;
   startDate: string;
   endDate: string;
+  selectedUsers: string[];
+  selectedSetores: string[];
 }

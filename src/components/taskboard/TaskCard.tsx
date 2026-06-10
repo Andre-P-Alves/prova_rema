@@ -64,12 +64,15 @@ export function TaskCard({ activity, editMode, onDelete }: TaskCardProps) {
         {activity.description}
       </p>
 
-      {/* Usuário */}
+      {/* Usuário + Setor */}
       <div className="flex items-center gap-2 mt-3 pt-3 border-t border-gray-100">
         <div className="w-6 h-6 rounded-full bg-rema-orange flex items-center justify-center text-xs font-semibold text-white flex-shrink-0">
           {initials}
         </div>
-        <span className="text-xs text-gray-500 truncate">{activity.user.name}</span>
+        <span className="text-xs text-gray-500 truncate flex-1">{activity.user.name}</span>
+        <span className="text-xs bg-rema-cream text-rema-rust px-2 py-0.5 rounded-full border border-rema-tan/30 flex-shrink-0">
+          {activity.user.setor}
+        </span>
       </div>
     </div>
   );

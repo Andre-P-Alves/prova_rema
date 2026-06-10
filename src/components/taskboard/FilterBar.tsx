@@ -1,6 +1,7 @@
 'use client';
 
-import { FilterState } from '@/types/activity';
+import { FilterState, User } from '@/types/activity';
+import { UserSetorFilter } from './UserSetorFilter';
 
 interface FilterBarProps {
   filters: FilterState;
@@ -8,6 +9,8 @@ interface FilterBarProps {
   editMode: boolean;
   onToggleEditMode: () => void;
   onCreateNew: () => void;
+  allUsers: User[];
+  allSetores: string[];
 }
 
 export function FilterBar({
@@ -16,10 +19,13 @@ export function FilterBar({
   editMode,
   onToggleEditMode,
   onCreateNew,
+  allUsers,
+  allSetores,
 }: FilterBarProps) {
   return (
-    <div className="bg-white border-b border-gray-200 px-6 py-3 flex items-center gap-4 flex-shrink-0">
+    <div className="bg-white border-b border-gray-200 px-6 py-3 flex items-center gap-3 flex-shrink-0">
       <div className="flex items-center gap-3 flex-1 flex-wrap">
+        {/* Busca por texto */}
         <div className="relative">
           <svg
             className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400"
@@ -38,6 +44,7 @@ export function FilterBar({
           />
         </div>
 
+        {/* Filtro de data */}
         <div className="flex items-center gap-2">
           <label className="text-xs text-gray-500 whitespace-nowrap font-medium">De:</label>
           <input
@@ -57,8 +64,19 @@ export function FilterBar({
             className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-rema-orange"
           />
         </div>
+
+        {/* Filtro de usuários & setores */}
+        <UserSetorFilter
+          users={allUsers}
+          setores={allSetores}
+          selectedUsers={filters.selectedUsers}
+          selectedSetores={filters.selectedSetores}
+          onUsersChange={(ids) => onFiltersChange({ ...filters, selectedUsers: ids })}
+          onSetoresChange={(setores) => onFiltersChange({ ...filters, selectedSetores: setores })}
+        />
       </div>
 
+      {/* Botões de ação */}
       <div className="flex items-center gap-2 flex-shrink-0">
         <button
           onClick={onToggleEditMode}

@@ -4,12 +4,21 @@ export const mockCurrentUser: User = {
   id: 'user-1',
   name: 'André Alves',
   email: 'andre.p.a.8.2001@gmail.com',
+  setor: 'Desenvolvimento',
 };
 
 const userMaria: User = {
   id: 'user-2',
   name: 'Maria Santos',
   email: 'maria.santos@example.com',
+  setor: 'DevOps',
+};
+
+const userJoao: User = {
+  id: 'user-3',
+  name: 'João Pereira',
+  email: 'joao.pereira@example.com',
+  setor: 'Desenvolvimento',
 };
 
 export const mockActivities: Activity[] = [
@@ -34,7 +43,7 @@ export const mockActivities: Activity[] = [
     startTime: new Date('2026-06-09T13:00:00'),
     endTime: new Date('2026-06-09T15:30:00'),
     description: 'Desenvolvimento de novos endpoints na API REST para integração com o cliente mobile.',
-    user: userMaria,
+    user: userJoao,
     createdAt: new Date('2026-06-09T12:50:00'),
   },
   {
@@ -58,7 +67,7 @@ export const mockActivities: Activity[] = [
     startTime: new Date('2026-06-08T14:00:00'),
     endTime: new Date('2026-06-08T15:45:00'),
     description: 'Documentação dos endpoints da API e atualização do README do projeto.',
-    user: mockCurrentUser,
+    user: userJoao,
     createdAt: new Date('2026-06-08T13:55:00'),
   },
 ];
