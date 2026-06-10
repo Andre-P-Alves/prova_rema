@@ -25,7 +25,7 @@ export function Sidebar({ user }: SidebarProps) {
       </nav>
 
       <div className="text-rema-tan/40 text-xs text-center border-t border-rema-dark-mid pt-4">
-        v0.2.0 — protótipo
+        v0.2.5 — protótipo
       </div>
     </aside>
   );
