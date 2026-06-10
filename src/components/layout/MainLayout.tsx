@@ -4,11 +4,14 @@ import { useState, useMemo } from 'react';
 import { Sidebar } from './Sidebar';
 import { FilterBar } from '@/components/taskboard/FilterBar';
 import { TaskBoard } from '@/components/taskboard/TaskBoard';
+import { CreateEntryModal } from '@/components/modals/CreateEntryModal';
 import { mockCurrentUser, mockActivities } from '@/data/mockActivities';
 import { Activity, FilterState } from '@/types/activity';
 
 export function MainLayout() {
   const [activities, setActivities] = useState<Activity[]>(mockActivities);
+  const [editMode, setEditMode] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [filters, setFilters] = useState<FilterState>({
     search: '',
     startDate: '',
@@ -38,6 +41,10 @@ export function MainLayout() {
     });
   }, [activities, filters]);
 
+  const handleDelete = (id: string) => {
+    setActivities((prev) => prev.filter((a) => a.id !== id));
+  };
+
   return (
     <div className="flex h-screen bg-rema-cream overflow-hidden">
       <Sidebar user={mockCurrentUser} />
@@ -46,13 +53,22 @@ export function MainLayout() {
         <FilterBar
           filters={filters}
           onFiltersChange={setFilters}
+          editMode={editMode}
+          onToggleEditMode={() => setEditMode((prev) => !prev)}
+          onCreateNew={() => setIsModalOpen(true)}
         />
 
         <TaskBoard
           activities={filteredActivities}
+          editMode={editMode}
+          onDelete={handleDelete}
         />
       </main>
 
+      <CreateEntryModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
     </div>
   );
 }

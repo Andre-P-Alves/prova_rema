@@ -3,9 +3,11 @@ import { formatTime, formatDate, getDuration } from '@/lib/utils';
 
 interface TaskCardProps {
   activity: Activity;
+  editMode: boolean;
+  onDelete: (id: string) => void;
 }
 
-export function TaskCard({ activity }: TaskCardProps) {
+export function TaskCard({ activity, editMode, onDelete }: TaskCardProps) {
   const duration = getDuration(activity.startTime, activity.endTime);
 
   const initials = activity.user.name
@@ -17,9 +19,23 @@ export function TaskCard({ activity }: TaskCardProps) {
 
   return (
     <div
-      className={`relative bg-white rounded-xl shadow-sm border p-4 w-72 flex-shrink-0 flex flex-col transition-all border-gray-200 hover:shadow-md hover:border-rema-tan'
+      className={`relative bg-white rounded-xl shadow-sm border p-4 w-72 flex-shrink-0 flex flex-col transition-all ${
+        editMode
+          ? 'border-red-300 ring-1 ring-red-100'
+          : 'border-gray-200 hover:shadow-md hover:border-rema-tan'
       }`}
     >
+      {editMode && (
+        <button
+          onClick={() => onDelete(activity.id)}
+          className="absolute -top-2.5 -right-2.5 w-7 h-7 bg-red-500 text-white rounded-full flex items-center justify-center hover:bg-red-600 transition-colors shadow-md z-10"
+          title="Excluir atividade"
+        >
+          <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      )}
 
       {/* Data e duração */}
       <div className="flex items-center justify-between mb-2">
