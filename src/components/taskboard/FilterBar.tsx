@@ -13,6 +13,12 @@ interface FilterBarProps {
   allSetores: string[];
 }
 
+const STATUS_OPTIONS: { value: FilterState['status']; label: string }[] = [
+  { value: 'all', label: 'Todas' },
+  { value: 'in_progress', label: 'Em andamento' },
+  { value: 'completed', label: 'Concluídas' },
+];
+
 export function FilterBar({
   filters,
   onFiltersChange,
@@ -63,6 +69,25 @@ export function FilterBar({
             onChange={(e) => onFiltersChange({ ...filters, endDate: e.target.value })}
             className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-rema-orange"
           />
+        </div>
+
+        {/* Filtro de status */}
+        <div className="flex rounded-lg border border-gray-300 overflow-hidden text-sm flex-shrink-0">
+          {STATUS_OPTIONS.map((opt, i) => (
+            <button
+              key={opt.value}
+              onClick={() => onFiltersChange({ ...filters, status: opt.value })}
+              className={`px-3 py-2 transition-colors whitespace-nowrap ${
+                i > 0 ? 'border-l border-gray-300' : ''
+              } ${
+                filters.status === opt.value
+                  ? 'bg-rema-orange text-white'
+                  : 'bg-white text-gray-600 hover:bg-gray-50'
+              }`}
+            >
+              {opt.label}
+            </button>
+          ))}
         </div>
 
         {/* Filtro de usuários & setores */}

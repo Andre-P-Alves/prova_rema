@@ -41,7 +41,6 @@ export const mockActivities: Activity[] = [
   {
     id: 'act-3',
     startTime: new Date('2026-06-09T13:00:00'),
-    endTime: new Date('2026-06-09T15:30:00'),
     description: 'Desenvolvimento de novos endpoints na API REST para integração com o cliente mobile.',
     user: userJoao,
     createdAt: new Date('2026-06-09T12:50:00'),
@@ -64,10 +63,25 @@ export const mockActivities: Activity[] = [
   },
   {
     id: 'act-6',
+    startTime: new Date('2026-06-10T09:00:00'),
+    description: 'Monitoramento dos pipelines de CI/CD após atualização dos runners.',
+    user: userMaria,
+    createdAt: new Date('2026-06-10T08:55:00'),
+  },
+  {
+    id: 'act-7',
     startTime: new Date('2026-06-08T14:00:00'),
     endTime: new Date('2026-06-08T15:45:00'),
     description: 'Documentação dos endpoints da API e atualização do README do projeto.',
     user: userJoao,
     createdAt: new Date('2026-06-08T13:55:00'),
+  },
+    {
+    id: 'act-8',
+    startTime: new Date('2026-06-05T14:00:00'),
+    endTime: new Date('2026-06-08T15:45:00'),
+    description: 'Atualização dos endpoints da API e atualização do README do projeto.',
+    user: userJoao,
+    createdAt: new Date('2026-06-05T13:55:00'),
   },
 ];

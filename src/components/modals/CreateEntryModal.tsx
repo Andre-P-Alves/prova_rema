@@ -38,24 +38,34 @@ export function CreateEntryModal({ isOpen, onClose }: CreateEntryModalProps) {
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Início</label>
-              <input
-                type="datetime-local"
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-rema-orange focus:border-transparent"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Término</label>
-              <input
-                type="datetime-local"
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-rema-orange focus:border-transparent"
-              />
-            </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Início</label>
+            <input
+              type="datetime-local"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-rema-orange focus:border-transparent"
+            />
           </div>
 
-          <div className="flex gap-3 pt-2">
+          <div>
+            <div className="flex items-center justify-between mb-1">
+              <label className="block text-sm font-medium text-gray-700">Término</label>
+              <span className="text-xs text-gray-400">Opcional — deixe vazio para &quot;em andamento&quot;</span>
+            </div>
+            <input
+              type="datetime-local"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-rema-orange focus:border-transparent"
+            />
+          </div>
+
+          {/* Preview do estado */}
+          <div className="flex items-center gap-2 bg-rema-cream rounded-lg px-3 py-2.5">
+            <span className="w-2 h-2 rounded-full bg-rema-orange animate-pulse flex-shrink-0" />
+            <p className="text-xs text-rema-rust">
+              Sem término preenchido, a atividade ficará como <span className="font-semibold">Em andamento</span>.
+            </p>
+          </div>
+
+          <div className="flex gap-3 pt-1">
             <button
               type="button"
               onClick={onClose}

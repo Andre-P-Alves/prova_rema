@@ -9,7 +9,7 @@ export interface User {
 export interface Activity {
   id: string;
   startTime: Date;
-  endTime: Date;
+  endTime?: Date;
   description: string;
   user: User;
   createdAt: Date;
@@ -21,4 +21,5 @@ export interface FilterState {
   endDate: string;
   selectedUsers: string[];
   selectedSetores: string[];
+  status: 'all' | 'in_progress' | 'completed';
 }

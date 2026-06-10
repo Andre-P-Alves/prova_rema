@@ -18,6 +18,7 @@ export function MainLayout() {
     endDate: '',
     selectedUsers: [],
     selectedSetores: [],
+    status: 'all',
   });
 
   const allUsers: User[] = useMemo(() => {
@@ -61,6 +62,9 @@ export function MainLayout() {
       if (filters.selectedSetores.length > 0) {
         if (!filters.selectedSetores.includes(activity.user.setor)) return false;
       }
+
+      if (filters.status === 'in_progress' && activity.endTime !== undefined) return false;
+      if (filters.status === 'completed' && activity.endTime === undefined) return false;
 
       return true;
     });

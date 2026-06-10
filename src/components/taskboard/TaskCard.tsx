@@ -8,6 +8,7 @@ interface TaskCardProps {
 }
 
 export function TaskCard({ activity, editMode, onDelete }: TaskCardProps) {
+  const inProgress = activity.endTime === undefined;
   const duration = getDuration(activity.startTime, activity.endTime);
 
   const initials = activity.user.name
@@ -22,6 +23,8 @@ export function TaskCard({ activity, editMode, onDelete }: TaskCardProps) {
       className={`relative bg-white rounded-xl shadow-sm border p-4 w-72 flex-shrink-0 flex flex-col transition-all ${
         editMode
           ? 'border-red-300 ring-1 ring-red-100'
+          : inProgress
+          ? 'border-rema-orange/40 ring-1 ring-rema-orange/10 hover:shadow-md'
           : 'border-gray-200 hover:shadow-md hover:border-rema-tan'
       }`}
     >
@@ -37,14 +40,22 @@ export function TaskCard({ activity, editMode, onDelete }: TaskCardProps) {
         </button>
       )}
 
-      {/* Data e duração */}
+      {/* Data + badge de status */}
       <div className="flex items-center justify-between mb-2">
         <span className="text-xs font-semibold text-rema-orange">
           {formatDate(activity.startTime)}
         </span>
-        <span className="bg-rema-cream text-rema-orange text-xs font-medium px-2 py-0.5 rounded-full border border-rema-tan/30">
-          {duration}
-        </span>
+
+        {inProgress ? (
+          <span className="flex items-center gap-1.5 bg-rema-orange/10 text-rema-orange text-xs font-medium px-2 py-0.5 rounded-full">
+            <span className="w-1.5 h-1.5 rounded-full bg-rema-orange animate-pulse" />
+            Em andamento
+          </span>
+        ) : (
+          <span className="bg-rema-cream text-rema-orange text-xs font-medium px-2 py-0.5 rounded-full border border-rema-tan/30">
+            {duration}
+          </span>
+        )}
       </div>
 
       {/* Horários */}
@@ -54,7 +65,11 @@ export function TaskCard({ activity, editMode, onDelete }: TaskCardProps) {
         </svg>
         <span className="font-medium">{formatTime(activity.startTime)}</span>
         <span className="text-gray-400">→</span>
-        <span>{formatTime(activity.endTime)}</span>
+        {inProgress ? (
+          <span className="text-rema-orange/60 italic text-xs">em aberto</span>
+        ) : (
+          <span>{formatTime(activity.endTime!)}</span>
+        )}
       </div>
 
       <div className="border-t border-gray-100 mb-3" />
