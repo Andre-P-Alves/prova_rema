@@ -13,7 +13,7 @@ export function formatDate(date: Date): string {
   }).format(date);
 }
 
-export function getDuration(startTime: Date, endTime?: Date): string {
+export function getDuration(startTime: Date, endTime?: Date | null): string {
   const end = endTime ?? new Date();
   const diff = end.getTime() - startTime.getTime();
 

@@ -3,13 +3,13 @@ export interface User {
   name: string;
   email: string;
   setor: string;
-  image?: string;
+  image?: string | null;
 }
 
 export interface Activity {
   id: string;
   startTime: Date;
-  endTime?: Date;
+  endTime: Date | null;
   description: string;
   user: User;
   createdAt: Date;

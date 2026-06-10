@@ -8,7 +8,7 @@ interface TaskCardProps {
 }
 
 export function TaskCard({ activity, editMode, onDelete }: TaskCardProps) {
-  const inProgress = activity.endTime === undefined;
+  const inProgress = activity.endTime === null;
   const duration = getDuration(activity.startTime, activity.endTime);
 
   const initials = activity.user.name

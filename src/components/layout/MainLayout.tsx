@@ -5,11 +5,10 @@ import { Sidebar } from './Sidebar';
 import { FilterBar } from '@/components/taskboard/FilterBar';
 import { TaskBoard } from '@/components/taskboard/TaskBoard';
 import { CreateEntryModal } from '@/components/modals/CreateEntryModal';
-import { mockCurrentUser, mockActivities } from '@/data/mockActivities';
-import { Activity, FilterState, User } from '@/types/activity';
+import { trpc } from '@/lib/trpc/client';
+import { FilterState } from '@/types/activity';
 
 export function MainLayout() {
-  const [activities, setActivities] = useState<Activity[]>(mockActivities);
   const [editMode, setEditMode] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [filters, setFilters] = useState<FilterState>({
@@ -21,62 +20,55 @@ export function MainLayout() {
     status: 'all',
   });
 
-  const allUsers: User[] = useMemo(() => {
-    const seen = new Set<string>();
-    return activities
-      .map((a) => a.user)
-      .filter((u) => {
-        if (seen.has(u.id)) return false;
-        seen.add(u.id);
-        return true;
-      });
-  }, [activities]);
+  const { data: tasks = [] } = trpc.task.getAll.useQuery();
+  const { data: users = [] } = trpc.user.getAll.useQuery();
 
-  const allSetores: string[] = useMemo(() => {
-    return [...new Set(allUsers.map((u) => u.setor))].sort();
-  }, [allUsers]);
+  const utils = trpc.useUtils();
+  const deleteTask = trpc.task.delete.useMutation({
+    onSuccess: () => utils.task.invalidate(),
+  });
 
-  const filteredActivities = useMemo(() => {
-    return activities.filter((activity) => {
+  const allSetores = useMemo(() => {
+    return [...new Set(users.map((u) => u.setor))].sort();
+  }, [users]);
+
+  const filteredTasks = useMemo(() => {
+    return tasks.filter((task) => {
       if (filters.search) {
         const q = filters.search.toLowerCase();
-        const matchesDesc = activity.description.toLowerCase().includes(q);
-        const matchesUser = activity.user.name.toLowerCase().includes(q);
+        const matchesDesc = task.description.toLowerCase().includes(q);
+        const matchesUser = task.user.name.toLowerCase().includes(q);
         if (!matchesDesc && !matchesUser) return false;
       }
 
       if (filters.startDate) {
         const startFilter = new Date(filters.startDate + 'T00:00:00');
-        if (activity.startTime < startFilter) return false;
+        if (task.startTime < startFilter) return false;
       }
 
       if (filters.endDate) {
         const endFilter = new Date(filters.endDate + 'T23:59:59');
-        if (activity.startTime > endFilter) return false;
+        if (task.startTime > endFilter) return false;
       }
 
       if (filters.selectedUsers.length > 0) {
-        if (!filters.selectedUsers.includes(activity.user.id)) return false;
+        if (!filters.selectedUsers.includes(task.user.id)) return false;
       }
 
       if (filters.selectedSetores.length > 0) {
-        if (!filters.selectedSetores.includes(activity.user.setor)) return false;
+        if (!filters.selectedSetores.includes(task.user.setor)) return false;
       }
 
-      if (filters.status === 'in_progress' && activity.endTime !== undefined) return false;
-      if (filters.status === 'completed' && activity.endTime === undefined) return false;
+      if (filters.status === 'in_progress' && task.endTime !== null) return false;
+      if (filters.status === 'completed' && task.endTime === null) return false;
 
       return true;
     });
-  }, [activities, filters]);
-
-  const handleDelete = (id: string) => {
-    setActivities((prev) => prev.filter((a) => a.id !== id));
-  };
+  }, [tasks, filters]);
 
   return (
     <div className="flex h-screen bg-rema-cream overflow-hidden">
-      <Sidebar user={mockCurrentUser} />
+      <Sidebar />
 
       <main className="flex-1 flex flex-col min-w-0">
         <FilterBar
@@ -85,14 +77,14 @@ export function MainLayout() {
           editMode={editMode}
           onToggleEditMode={() => setEditMode((prev) => !prev)}
           onCreateNew={() => setIsModalOpen(true)}
-          allUsers={allUsers}
+          allUsers={users}
           allSetores={allSetores}
         />
 
         <TaskBoard
-          activities={filteredActivities}
+          activities={filteredTasks}
           editMode={editMode}
-          onDelete={handleDelete}
+          onDelete={(id) => deleteTask.mutate({ id })}
           selectedSetores={filters.selectedSetores}
         />
       </main>
