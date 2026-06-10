@@ -89,6 +89,7 @@ export function MainLayout() {
           activities={filteredActivities}
           editMode={editMode}
           onDelete={handleDelete}
+          selectedSetores={filters.selectedSetores}
         />
       </main>
 
