@@ -39,7 +39,7 @@ export function Sidebar() {
       </nav>
 
       <div className="text-rema-tan/40 text-xs text-center border-t border-rema-dark-mid pt-4">
-        v0.5.0
+        v0.6.0
       </div>
     </aside>
   );

@@ -15,18 +15,32 @@ const STATUS_OPTIONS: { value: TaskStatus; label: string }[] = [
   { value: 'CANCELLED', label: 'Cancelada' },
 ];
 
+function toDatetimeLocal(date: Date): string {
+  const pad = (n: number) => String(n).padStart(2, '0');
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
+}
+
 export function EditEntryModal({ task, onClose }: EditEntryModalProps) {
   const isOpen = task !== null;
 
   const [userId, setUserId] = useState('');
   const [status, setStatus] = useState<TaskStatus>('IN_PROGRESS');
+  const [endTime, setEndTime] = useState('');
 
   useEffect(() => {
     if (task) {
       setUserId(task.user.id);
       setStatus(task.status);
+      setEndTime(task.endTime ? toDatetimeLocal(task.endTime) : '');
     }
   }, [task]);
+
+  const handleStatusChange = (next: TaskStatus) => {
+    setStatus(next);
+    if (next === 'COMPLETED' && !endTime) {
+      setEndTime(toDatetimeLocal(new Date()));
+    }
+  };
 
   const { data: users, isLoading: usersLoading } = trpc.user.getAll.useQuery(undefined, {
     enabled: isOpen,
@@ -41,6 +55,7 @@ export function EditEntryModal({ task, onClose }: EditEntryModalProps) {
   });
 
   const handleClose = () => {
+    setEndTime('');
     updateTask.reset();
     onClose();
   };
@@ -48,7 +63,12 @@ export function EditEntryModal({ task, onClose }: EditEntryModalProps) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!task) return;
-    updateTask.mutate({ id: task.id, userId, status });
+    updateTask.mutate({
+      id: task.id,
+      userId,
+      status,
+      endTime: status === 'COMPLETED' ? new Date(endTime) : null,
+    });
   };
 
   if (!isOpen) return null;
@@ -99,7 +119,7 @@ export function EditEntryModal({ task, onClose }: EditEntryModalProps) {
                 <button
                   key={opt.value}
                   type="button"
-                  onClick={() => setStatus(opt.value)}
+                  onClick={() => handleStatusChange(opt.value)}
                   className={`flex-1 px-3 py-2 rounded-lg text-xs font-medium border transition-all ${
                     status === opt.value
                       ? opt.value === 'CANCELLED'
@@ -116,6 +136,19 @@ export function EditEntryModal({ task, onClose }: EditEntryModalProps) {
             </div>
           </div>
 
+          {status === 'COMPLETED' && (
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Concluída em</label>
+              <input
+                type="datetime-local"
+                value={endTime}
+                onChange={(e) => setEndTime(e.target.value)}
+                required
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+              />
+            </div>
+          )}
+
           {updateTask.isError && (
             <p className="text-xs text-red-500 text-center">Erro ao atualizar. Tente novamente.</p>
           )}
@@ -131,7 +164,7 @@ export function EditEntryModal({ task, onClose }: EditEntryModalProps) {
             </button>
             <button
               type="submit"
-              disabled={updateTask.isPending || !userId}
+              disabled={updateTask.isPending || !userId || (status === 'COMPLETED' && !endTime)}
               className="flex-1 px-4 py-2 bg-rema-orange text-white rounded-lg text-sm font-medium hover:bg-rema-rust transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {updateTask.isPending ? 'Salvando...' : 'Salvar'}

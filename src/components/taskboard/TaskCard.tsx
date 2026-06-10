@@ -37,7 +37,7 @@ export function TaskCard({ activity, editMode, onDelete, onEdit }: TaskCardProps
         <>
           <button
             onClick={() => onDelete(activity.id)}
-            className="absolute -top-2.5 -right-2.5 w-7 h-7 bg-red-500 text-white rounded-full flex items-center justify-center hover:bg-red-600 transition-colors shadow-md z-10"
+            className="absolute -top-2.5 -right-2.5 w-7 h-7 bg-rema-rust text-white rounded-full flex items-center justify-center hover:bg-rema-rust/80 transition-colors shadow-md z-10"
             title="Excluir atividade"
           >
             <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -46,7 +46,7 @@ export function TaskCard({ activity, editMode, onDelete, onEdit }: TaskCardProps
           </button>
           <button
             onClick={() => onEdit(activity)}
-            className="absolute -top-2.5 right-7 w-7 h-7 bg-blue-500 text-white rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors shadow-md z-10"
+            className="absolute -top-2.5 right-7 w-7 h-7 bg-rema-orange text-white rounded-full flex items-center justify-center hover:bg-rema-orange/80 transition-colors shadow-md z-10"
             title="Editar atividade"
           >
             <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
