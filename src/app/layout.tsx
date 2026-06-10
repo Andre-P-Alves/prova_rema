@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
+import { SessionProvider } from 'next-auth/react';
+import { auth } from '@/auth';
 import { TRPCProvider } from '@/lib/trpc/provider';
 import './globals.css';
 
@@ -10,11 +12,15 @@ export const metadata: Metadata = {
   description: 'Sistema de registro e monitoramento de atividades',
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const session = await auth();
+
   return (
     <html lang="pt-BR">
       <body className={inter.className}>
-        <TRPCProvider>{children}</TRPCProvider>
+        <SessionProvider session={session}>
+          <TRPCProvider>{children}</TRPCProvider>
+        </SessionProvider>
       </body>
     </html>
   );

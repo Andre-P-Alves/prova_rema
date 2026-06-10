@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { trpc } from '@/lib/trpc/client';
+import { useSession, signOut } from 'next-auth/react';
 import { UserInfo } from './UserInfo';
 
 const NAV_ITEMS = [
@@ -24,8 +24,7 @@ const NAV_ITEMS = [
 
 export function Sidebar() {
   const pathname = usePathname();
-  const { data: users } = trpc.user.getAll.useQuery();
-  const defaultUser = users?.[0];
+  const { data: session } = useSession();
 
   return (
     <aside className="w-64 bg-rema-dark border-r border-rema-dark-mid flex flex-col p-4 flex-shrink-0">
@@ -34,8 +33,12 @@ export function Sidebar() {
         <p className="text-rema-tan text-xs mt-0.5">Registro de Atividades</p>
       </div>
 
-      {defaultUser ? (
-        <UserInfo user={defaultUser} />
+      {session?.user ? (
+        <UserInfo
+          name={session.user.name ?? ''}
+          email={session.user.email ?? ''}
+          setor={session.user.setor}
+        />
       ) : (
         <div className="bg-rema-dark-mid rounded-xl p-4 border border-rema-dark-mid animate-pulse">
           <div className="flex items-center gap-3 mb-3">
@@ -76,8 +79,17 @@ export function Sidebar() {
         })}
       </nav>
 
-      <div className="text-rema-tan/40 text-xs text-center border-t border-rema-dark-mid pt-4">
-        v0.7.0
+      <div className="border-t border-rema-dark-mid pt-4 space-y-3">
+        <button
+          onClick={() => signOut({ callbackUrl: '/login' })}
+          className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-rema-tan/70 hover:bg-rema-dark-mid/60 hover:text-white transition-colors"
+        >
+          <svg className="w-4 h-4 text-rema-tan/50" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+          </svg>
+          Sair
+        </button>
+        <div className="text-rema-tan/40 text-xs text-center">v0.8.0</div>
       </div>
     </aside>
   );

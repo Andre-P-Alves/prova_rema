@@ -1,37 +1,47 @@
 import { PrismaClient } from '@prisma/client';
+import bcrypt from 'bcryptjs';
 
 const prisma = new PrismaClient();
 
 async function main() {
+  const adminPassword = await bcrypt.hash('admin123', 10);
+  const userPassword = await bcrypt.hash('user123', 10);
+
   const andre = await prisma.user.upsert({
     where: { email: 'andre.p.a.8.2001@gmail.com' },
-    update: {},
+    update: { password: adminPassword, role: 'ADMIN' },
     create: {
       id: 'user-1',
       name: 'André Alves',
       email: 'andre.p.a.8.2001@gmail.com',
+      password: adminPassword,
+      role: 'ADMIN',
       setor: 'Desenvolvimento',
     },
   });
 
   const maria = await prisma.user.upsert({
     where: { email: 'maria.santos@example.com' },
-    update: {},
+    update: { password: userPassword, role: 'USER' },
     create: {
       id: 'user-2',
       name: 'Maria Santos',
       email: 'maria.santos@example.com',
+      password: userPassword,
+      role: 'USER',
       setor: 'DevOps',
     },
   });
 
   const joao = await prisma.user.upsert({
     where: { email: 'joao.pereira@example.com' },
-    update: {},
+    update: { password: userPassword, role: 'USER' },
     create: {
       id: 'user-3',
       name: 'João Pereira',
       email: 'joao.pereira@example.com',
+      password: userPassword,
+      role: 'USER',
       setor: 'Desenvolvimento',
     },
   });
@@ -114,7 +124,11 @@ async function main() {
     ],
   });
 
-  console.log('Seed concluído:', { andre, maria, joao });
+  console.log('Seed concluído:', {
+    andre: { ...andre, password: '[hashed]' },
+    maria: { ...maria, password: '[hashed]' },
+    joao: { ...joao, password: '[hashed]' },
+  });
 }
 
 main()

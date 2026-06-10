@@ -1,11 +1,11 @@
-import { User } from '@/types/activity';
-
 interface UserInfoProps {
-  user: User;
+  name: string;
+  email: string;
+  setor: string;
 }
 
-export function UserInfo({ user }: UserInfoProps) {
-  const initials = user.name
+export function UserInfo({ name, email, setor }: UserInfoProps) {
+  const initials = name
     .split(' ')
     .map((n) => n[0])
     .join('')
@@ -19,8 +19,8 @@ export function UserInfo({ user }: UserInfoProps) {
           {initials}
         </div>
         <div className="min-w-0">
-          <p className="font-semibold text-white text-sm truncate">{user.name}</p>
-          <p className="text-rema-tan text-xs truncate">{user.email}</p>
+          <p className="font-semibold text-white text-sm truncate">{name}</p>
+          <p className="text-rema-tan text-xs truncate">{email}</p>
         </div>
       </div>
       <div className="flex items-center justify-between">
@@ -29,7 +29,7 @@ export function UserInfo({ user }: UserInfoProps) {
           <span className="text-rema-tan text-xs">Online</span>
         </div>
         <span className="text-xs bg-rema-orange/20 text-rema-tan px-2 py-0.5 rounded-full">
-          {user.setor}
+          {setor}
         </span>
       </div>
     </div>
