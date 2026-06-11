@@ -1,3 +1,4 @@
+// Card de exibição do usuário atual (nome, e-mail, setor e indicador de online).
 interface UserInfoProps {
   name: string;
   email: string;

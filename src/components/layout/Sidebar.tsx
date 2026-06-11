@@ -1,3 +1,4 @@
+// Sidebar de navegação — lê o usuário logado via useSession e expõe o botão de logout.
 'use client';
 
 import Link from 'next/link';

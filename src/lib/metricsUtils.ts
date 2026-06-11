@@ -1,3 +1,5 @@
+// Utilitários para os gráficos de métricas: geração de períodos, chaves de semana ISO e paleta de cores.
+// isoWeekKey segue o padrão ISO 8601 (semana começa na segunda-feira).
 export type ChartPeriod = 'weekly' | 'monthly' | 'yearly';
 
 export interface PeriodEntry {

@@ -1,3 +1,4 @@
+// Handler HTTP do tRPC — injeta a sessão NextAuth no contexto de cada requisição antes de despachar.
 import { fetchRequestHandler } from "@trpc/server/adapters/fetch";
 import { type NextRequest } from "next/server";
 import { appRouter } from "@/server/routers/_app";

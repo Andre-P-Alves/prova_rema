@@ -1,3 +1,4 @@
+// Router tRPC de usuários (getAll, getById, update, delete) — todos os procedimentos são protegidos.
 import { z } from "zod";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
 

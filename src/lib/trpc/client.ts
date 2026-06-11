@@ -1,3 +1,4 @@
+// Instância do cliente tRPC tipada com AppRouter para uso nos componentes React.
 import { createTRPCReact } from "@trpc/react-query";
 import { type AppRouter } from "@/server/routers/_app";
 

@@ -1,3 +1,4 @@
+// Funções de formatação de data e duração em pt-BR usadas nos cards de atividade.
 export function formatTime(date: Date): string {
   return new Intl.DateTimeFormat('pt-BR', {
     hour: '2-digit',

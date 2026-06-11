@@ -1,3 +1,4 @@
+// Middleware de proteção de rotas — redireciona para /login se não houver sessão ativa.
 export { auth as middleware } from "@/auth";
 
 export const config = {

@@ -1,3 +1,5 @@
+// Inicialização do tRPC: contexto com sessão, publicProcedure e protectedProcedure.
+// protectedProcedure lança UNAUTHORIZED se não houver sessão — a sessão é injetada pelo handler da rota.
 import { initTRPC, TRPCError } from "@trpc/server";
 import superjson from "superjson";
 import { ZodError } from "zod";

@@ -1,3 +1,4 @@
+// Amplia os tipos padrão do NextAuth com os campos id, role e setor do usuário REMA.
 import { DefaultSession } from "next-auth";
 
 declare module "next-auth" {

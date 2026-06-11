@@ -1,3 +1,4 @@
+// Singleton do PrismaClient — armazenado em globalThis para sobreviver ao HMR em desenvolvimento.
 import { PrismaClient } from "@prisma/client";
 
 const globalForPrisma = globalThis as unknown as {

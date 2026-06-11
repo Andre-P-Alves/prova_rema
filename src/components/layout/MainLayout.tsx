@@ -1,3 +1,4 @@
+// Layout principal da dashboard — centraliza o estado de filtros, modais e modo de edição.
 'use client';
 
 import { useState, useMemo } from 'react';

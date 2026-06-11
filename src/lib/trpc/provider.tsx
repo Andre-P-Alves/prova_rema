@@ -1,3 +1,4 @@
+// Provider do tRPC + React Query — detecta a URL base dinamicamente para suportar dev e Vercel.
 "use client";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";

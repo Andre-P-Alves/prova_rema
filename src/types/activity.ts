@@ -1,3 +1,4 @@
+// Interfaces de domínio da aplicação: User, Activity, FilterState e TaskStatus.
 export type TaskStatus = 'IN_PROGRESS' | 'COMPLETED' | 'CANCELLED';
 
 export interface User {

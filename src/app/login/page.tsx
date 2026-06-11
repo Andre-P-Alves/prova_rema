@@ -1,3 +1,5 @@
+// Página de login com as cores do REMA.
+// Usa redirect: false para capturar o erro de credenciais inválidas e exibi-lo inline.
 'use client';
 
 import { useState } from 'react';

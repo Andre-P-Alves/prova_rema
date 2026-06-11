@@ -1,3 +1,5 @@
+// Configuração do NextAuth v5: provider de credenciais com bcrypt, estratégia JWT e callbacks de sessão.
+// Lê AUTH_SECRET com fallback para NEXTAUTH_SECRET para compatibilidade com a variável anterior.
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { db } from "@/server/db";

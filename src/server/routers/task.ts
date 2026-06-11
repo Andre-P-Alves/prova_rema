@@ -1,3 +1,4 @@
+// Router tRPC de tarefas com filtros opcionais (userId, setor, datas, status) — todos os procedimentos são protegidos.
 import { z } from "zod";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
 

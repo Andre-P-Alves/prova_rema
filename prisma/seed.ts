@@ -1,3 +1,4 @@
+// Seed do banco: cria 3 usuários com senhas bcrypt (ADMIN/USER) e 8 tarefas de exemplo.
 import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcryptjs';
 

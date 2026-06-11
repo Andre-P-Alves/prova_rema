@@ -1,3 +1,4 @@
+// Layout raiz. Async Server Component — pré-carrega a sessão para evitar flash de loading no SessionProvider.
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { SessionProvider } from 'next-auth/react';
