@@ -1,5 +1,5 @@
 'use client';
-
+// Botão para filtro de usuários e setores. 
 import { useState, useRef, useEffect } from 'react';
 import { User } from '@/types/activity';
 
@@ -10,6 +10,7 @@ interface UserSetorFilterProps {
   selectedSetores: string[];
   onUsersChange: (ids: string[]) => void;
   onSetoresChange: (setores: string[]) => void;
+  onClearAll: () => void;
 }
 
 export function UserSetorFilter({
@@ -19,6 +20,7 @@ export function UserSetorFilter({
   selectedSetores,
   onUsersChange,
   onSetoresChange,
+  onClearAll,
 }: UserSetorFilterProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [search, setSearch] = useState('');
@@ -133,7 +135,7 @@ export function UserSetorFilter({
           {activeCount > 0 && (
             <div className="border-t border-gray-100 px-3 py-2 flex justify-end">
               <button
-                onClick={() => { onUsersChange([]); onSetoresChange([]); }}
+                onClick={onClearAll}
                 className="text-xs text-gray-400 hover:text-red-500 transition-colors"
               >
                 Limpar seleção

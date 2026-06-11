@@ -1,6 +1,6 @@
 import { Activity } from '@/types/activity';
 import { formatTime, formatDate, getDuration } from '@/lib/utils';
-
+// Constrói os cards de atividades.
 interface TaskCardProps {
   activity: Activity;
   editMode: boolean;

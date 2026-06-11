@@ -1,4 +1,5 @@
 'use client';
+// Gráfico de exibição de tarefas por período selecionado.
 
 import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,

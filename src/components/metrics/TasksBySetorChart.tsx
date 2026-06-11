@@ -1,5 +1,5 @@
 'use client';
-
+// Gráfico de barras das tarefas por setor, separada por status.
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
 } from 'recharts';

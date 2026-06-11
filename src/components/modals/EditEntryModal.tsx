@@ -1,5 +1,5 @@
 'use client';
-
+// Lógica de edição de novas tarefas, utilizando TRPC.
 import { useState, useEffect } from 'react';
 import { trpc } from '@/lib/trpc/client';
 import { Activity, TaskStatus } from '@/types/activity';

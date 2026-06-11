@@ -1,4 +1,5 @@
 'use client';
+// Display de métricas por período selecionado (tempo total, médio, quantidade, em andamento).
 
 import { useState, useMemo } from 'react';
 import { Sidebar } from '@/components/layout/Sidebar';

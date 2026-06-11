@@ -1,5 +1,5 @@
 'use client';
-
+// Barra superior que contém os campos de filtragem, botões de criar e editar.
 import { FilterState, User } from '@/types/activity';
 import { UserSetorFilter } from './UserSetorFilter';
 
@@ -98,6 +98,7 @@ export function FilterBar({
           selectedSetores={filters.selectedSetores}
           onUsersChange={(ids) => onFiltersChange({ ...filters, selectedUsers: ids })}
           onSetoresChange={(setores) => onFiltersChange({ ...filters, selectedSetores: setores })}
+          onClearAll={() => onFiltersChange({ ...filters, selectedUsers: [], selectedSetores: [] })}
         />
       </div>
 

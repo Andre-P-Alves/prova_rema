@@ -1,5 +1,5 @@
 'use client';
-
+// Container abaixo da barra de filtros, contém os cards de atividades. 
 import { Activity } from '@/types/activity';
 import { TaskCard } from './TaskCard';
 
